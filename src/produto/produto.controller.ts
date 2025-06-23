@@ -10,12 +10,14 @@ import {
 import { ProdutoService } from './produto.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
+import { ValidationPipe, UsePipes } from '@nestjs/common';
 
 @Controller('produto')
 export class ProdutoController {
   constructor(private readonly produtoService: ProdutoService) {}
 
   @Post()
+  @UsePipes(new ValidationPipe())
   create(@Body() createProdutoDto: CreateProdutoDto) {
     return this.produtoService.create(createProdutoDto);
   }
