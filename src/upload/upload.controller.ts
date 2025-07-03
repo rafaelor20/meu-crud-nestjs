@@ -7,7 +7,9 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { UploadedFile, UseInterceptors } from '@nestjs/common';
+import { UploadedFile, UseInterceptors, StreamableFile } from '@nestjs/common';
+import { join } from 'path';
+import { createReadStream } from 'fs';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
@@ -41,10 +43,17 @@ export class UploadController {
       originalname: file.originalname,
     };
   }
+
   @Get()
-  findAll() {
-    return this.uploadService.findAll();
+  getFile(): StreamableFile {
+    const file = createReadStream(join(process.cwd(), 'package.json'));
+    return new StreamableFile(file);
   }
+
+  //@Get()
+  //findAll() {
+  //  return this.uploadService.findAll();
+  //}
 
   @Get(':id')
   findOne(@Param('id') id: string) {
