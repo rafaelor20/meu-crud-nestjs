@@ -9,10 +9,20 @@ import { CategoriaModule } from './categoria/categoria.module';
 import { UploadModule } from './upload/upload.module';
 import { PedidoModule } from './pedido/pedido.module';
 import { PagamentoModule } from './pagamento/pagamento.module';
+import { EventsGateway } from './events/events.gateway';
 
 @Module({
-  imports: [PrismaModule, ProdutoModule, AuthModule, UserModule, CategoriaModule, UploadModule, PedidoModule, PagamentoModule],
+  imports: [
+    PrismaModule,
+    ProdutoModule,
+    AuthModule,
+    UserModule,
+    CategoriaModule,
+    UploadModule,
+    PedidoModule,
+    PagamentoModule,
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, EventsGateway],
 })
 export class AppModule {}

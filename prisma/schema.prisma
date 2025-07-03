@@ -38,13 +38,14 @@ model User {
 }
 
 model Pedido {
-  id        Int          @id @default(autoincrement())
-  userId    Int
-  user      User         @relation(fields: [userId], references: [id])
-  itens     PedidoItem[]
-  status    String       @default("PENDENTE")
-  createdAt DateTime     @default(now())
-  pagamento Pagamento?
+  id         Int          @id @default(autoincrement())
+  userId     Int
+  user       User         @relation(fields: [userId], references: [id])
+  itens      PedidoItem[]
+  status     String       @default("PENDENTE")
+  createdAt  DateTime     @default(now())
+  precoTotal Int
+  pagamento  Pagamento?
 }
 
 model PedidoItem {

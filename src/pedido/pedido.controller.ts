@@ -1,4 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { ValidationPipe, UsePipes } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUserId } from 'src/util/getUserid';
 import { PedidoService } from './pedido.service';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
@@ -8,8 +20,13 @@ export class PedidoController {
   constructor(private readonly pedidoService: PedidoService) {}
 
   @Post()
-  create(@Body() createPedidoDto: CreatePedidoDto) {
-    return this.pedidoService.create(createPedidoDto);
+  @UsePipes(new ValidationPipe())
+  @UseGuards(AuthGuard('jwt')) // Protege a rota para usuários autenticados
+  create(
+    @Body() createPedidoDto: CreatePedidoDto,
+    @GetUserId() userId: number,
+  ) {
+    return this.pedidoService.create(createPedidoDto, userId);
   }
 
   @Get()
