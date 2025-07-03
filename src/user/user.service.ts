@@ -16,9 +16,11 @@ export class UserService {
       throw new ConflictException('Email já cadastrado');
     }
     const hash = await bcrypt.hash(password, 10);
-    return this.prisma.user.create({
+    const user = await this.prisma.user.create({
       data: { email: String(email), password: hash, name: String(name) },
     });
+    const { password: _password, ...result } = user;
+    return result;
   }
 
   findByEmail(email: string) {
