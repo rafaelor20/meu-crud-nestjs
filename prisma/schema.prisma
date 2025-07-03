@@ -14,24 +14,54 @@ datasource db {
 }
 
 model Produto {
-  id    Int    @id @default(autoincrement())
-  nome  String
-  preco Int
-  // relacionamento com Categoria
+  id          Int          @id @default(autoincrement())
+  nome        String
+  preco       Int
   categoriaId Int
-  categoria   Categoria @relation(fields: [categoriaId], references: [id])
+  categoria   Categoria    @relation(fields: [categoriaId], references: [id])
+  pedidoItems PedidoItem[]
 }
 
 model Categoria {
-  id        Int       @id @default(autoincrement())
-  nome      String    @unique
-  produtos  Produto[]
+  id       Int       @id @default(autoincrement())
+  nome     String    @unique
+  produtos Produto[]
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
   password String
   name     String
-  role     String @default("user") // opcional: user/admin
+  role     String   @default("user")
+  pedidos  Pedido[]
+}
+
+model Pedido {
+  id        Int          @id @default(autoincrement())
+  userId    Int
+  user      User         @relation(fields: [userId], references: [id])
+  itens     PedidoItem[]
+  status    String       @default("PENDENTE")
+  createdAt DateTime     @default(now())
+  pagamento Pagamento?
+}
+
+model PedidoItem {
+  id         Int     @id @default(autoincrement())
+  pedidoId   Int
+  pedido     Pedido  @relation(fields: [pedidoId], references: [id])
+  produtoId  Int
+  produto    Produto @relation(fields: [produtoId], references: [id])
+  quantidade Int
+}
+
+model Pagamento {
+  id       Int      @id @default(autoincrement())
+  pedido   Pedido   @relation(fields: [pedidoId], references: [id])
+  pedidoId Int      @unique
+  metodo   String
+  status   String
+  valor    Int
+  criadoEm DateTime @default(now())
 }
