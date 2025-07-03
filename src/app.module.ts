@@ -7,9 +7,11 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { CategoriaModule } from './categoria/categoria.module';
 import { UploadModule } from './upload/upload.module';
+import { PedidoModule } from './pedido/pedido.module';
+import { PagamentoModule } from './pagamento/pagamento.module';
 
 @Module({
-  imports: [PrismaModule, ProdutoModule, AuthModule, UserModule, CategoriaModule, UploadModule],
+  imports: [PrismaModule, ProdutoModule, AuthModule, UserModule, CategoriaModule, UploadModule, PedidoModule, PagamentoModule],
   controllers: [AppController],
   providers: [AppService],
 })
