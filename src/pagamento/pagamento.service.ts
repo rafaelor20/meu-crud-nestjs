@@ -20,21 +20,10 @@ export class PagamentoService {
     });
 
     // (Opcional) Atualiza o status do pedido também
-
     await this.prisma.pedido.update({
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       where: { id: pagamento.pedidoId },
       data: { status: 'PAGO' },
-    });
-
-    // 🚀 Notifica via socket
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    this.eventsGateway.notificarConfirmacao(pagamento.pedido.userId, {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      pedidoId: pagamento.pedidoId,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      pagamentoId: pagamento.id,
-      status: 'PAGO',
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
@@ -58,6 +47,16 @@ export class PagamentoService {
         },
       },
       include: { pedido: true },
+    });
+
+    // 🚀 Notifica via socket
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+    this.eventsGateway.notificarConfirmacao(pagamento.pedido.userId, {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      pedidoId: pagamento.pedidoId,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      pagamentoId: pagamento.id,
+      status: 'PAGO',
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return

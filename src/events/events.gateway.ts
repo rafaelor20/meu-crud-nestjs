@@ -14,13 +14,17 @@ export class EventsGateway implements OnGatewayConnection {
   handleConnection(socket: Socket) {
     const userId = socket.handshake.query['userId'];
     if (userId) {
-      socket.join(String(userId));
+      void socket.join(String(userId));
       // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       console.log(`Usuário ${userId} conectado via WebSocket`);
     }
   }
 
   notificarConfirmacao(userId: number, dados: any) {
+    console.log(
+      `Notificando usuário ${userId} sobre confirmação de pagamento`,
+      dados,
+    );
     this.server.to(String(userId)).emit('pagamento.confirmado', dados);
   }
 }

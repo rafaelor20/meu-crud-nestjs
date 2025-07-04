@@ -10,6 +10,7 @@ import { UploadModule } from './upload/upload.module';
 import { PedidoModule } from './pedido/pedido.module';
 import { PagamentoModule } from './pagamento/pagamento.module';
 import { EventsGateway } from './events/events.gateway';
+import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { EventsGateway } from './events/events.gateway';
     UploadModule,
     PedidoModule,
     PagamentoModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService, EventsGateway],

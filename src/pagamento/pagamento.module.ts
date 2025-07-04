@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { PagamentoService } from './pagamento.service';
 import { PagamentoController } from './pagamento.controller';
-import { EventsGateway } from '../events/events.gateway';
+import { EventsModule } from 'src/events/events.module'; // <== importa o módulo
 
 @Module({
+  imports: [EventsModule], // <== adiciona o módulo aqui
   controllers: [PagamentoController],
-  providers: [PagamentoService, EventsGateway],
+  providers: [PagamentoService],
 })
 export class PagamentoModule {}
