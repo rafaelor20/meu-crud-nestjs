@@ -62,7 +62,5 @@ model Pagamento {
   pedido   Pedido   @relation(fields: [pedidoId], references: [id])
   pedidoId Int      @unique
   metodo   String
-  status   String
-  valor    Int
   criadoEm DateTime @default(now())
 }

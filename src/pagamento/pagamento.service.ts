@@ -20,7 +20,7 @@ export class PagamentoService {
     });
 
     // (Opcional) Atualiza o status do pedido também
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+
     await this.prisma.pedido.update({
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       where: { id: pagamento.pedidoId },
@@ -41,8 +41,27 @@ export class PagamentoService {
     return pagamento;
   }
 
-  create(createPagamentoDto: CreatePagamentoDto) {
-    return 'This action adds a new pagamento';
+  async create(createPagamentoDto: CreatePagamentoDto, pedidoId: string) {
+    const { metodo } = createPagamentoDto;
+    // pedidoId é uma string, mas o Prisma espera um número
+    const pedidoIdNumber = Number(pedidoId);
+    await this.prisma.pedido.update({
+      where: { id: pedidoIdNumber },
+      data: { status: 'PAGO' },
+    });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
+    const pagamento = await this.prisma.pagamento.create({
+      data: {
+        metodo,
+        pedido: {
+          connect: { id: pedidoIdNumber },
+        },
+      },
+      include: { pedido: true },
+    });
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return pagamento;
   }
 
   findAll() {

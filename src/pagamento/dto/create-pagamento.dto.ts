@@ -1,1 +1,6 @@
-export class CreatePagamentoDto {}
+import { IsString } from 'class-validator';
+
+export class CreatePagamentoDto {
+  @IsString()
+  metodo: string;
+}

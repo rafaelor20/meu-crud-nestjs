@@ -8,16 +8,24 @@ import {
   Delete,
 } from '@nestjs/common';
 import { PagamentoService } from './pagamento.service';
+import { EventsGateway } from 'src/events/events.gateway';
 import { CreatePagamentoDto } from './dto/create-pagamento.dto';
 import { UpdatePagamentoDto } from './dto/update-pagamento.dto';
 
 @Controller('pagamento')
 export class PagamentoController {
-  constructor(private readonly pagamentoService: PagamentoService) {}
+  constructor(
+    private readonly pagamentoService: PagamentoService,
+    private eventsGateway: EventsGateway,
+  ) {}
 
-  @Post()
-  create(@Body() createPagamentoDto: CreatePagamentoDto) {
-    return this.pagamentoService.create(createPagamentoDto);
+  @Post('/:pedidoId')
+  create(
+    @Param('pedidoId') pedidoId: string,
+    @Body() createPagamentoDto: CreatePagamentoDto,
+  ) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return this.pagamentoService.create(createPagamentoDto, pedidoId);
   }
 
   @Get()
