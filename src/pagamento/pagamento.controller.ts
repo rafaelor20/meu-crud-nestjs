@@ -19,13 +19,9 @@ export class PagamentoController {
     private eventsGateway: EventsGateway,
   ) {}
 
-  @Post('/:pedidoId')
-  create(
-    @Param('pedidoId') pedidoId: string,
-    @Body() createPagamentoDto: CreatePagamentoDto,
-  ) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.pagamentoService.create(createPagamentoDto, pedidoId);
+  @Post()
+  create(@Body() createPagamentoDto: CreatePagamentoDto) {
+    return this.pagamentoService.create(createPagamentoDto);
   }
 
   @Get()

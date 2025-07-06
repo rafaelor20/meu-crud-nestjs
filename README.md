@@ -99,26 +99,37 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
 
 register:
-    "email": "{{userEmail}}",
-    "password": "{{userPassword}}",
-    "name": "userteste"
+    email: string,
+    password: string,
+    name: string
 
 login:
-    "email": "{{userEmail}}",
-    "password": "{{userPassword}}",
+    email: string,
+    password: string
 
 categoria:
-nome
+  nome: string
 
 produto:
-    "categoriaId": 1,
-    "nome": "teclado gamer",
-    "preco": 250
+    categoriaId: number,
+    nome: string,
+    preco: number
 
 pedido:
 [
   {
-    produtoId
-    quantidade
+    produtoId: number,
+    quantidade: number
   }
 ]
+
+pagamento:
+{
+  pedidoId: number,
+  metodo: string,
+  pagador: {
+    nome: string,
+    cpf: string,
+    email: string
+  }
+}

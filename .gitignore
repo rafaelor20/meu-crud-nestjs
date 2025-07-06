@@ -7,6 +7,7 @@ uploads/*
 # compiled output
 /dist
 /node_modules
+/cliente-socket-io/node_modules
 /build
 .env
 # Logs

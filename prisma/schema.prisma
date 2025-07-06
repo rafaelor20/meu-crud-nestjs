@@ -58,9 +58,25 @@ model PedidoItem {
 }
 
 model Pagamento {
-  id       Int      @id @default(autoincrement())
-  pedido   Pedido   @relation(fields: [pedidoId], references: [id])
-  pedidoId Int      @unique
-  metodo   String
-  criadoEm DateTime @default(now())
+  id            Int             @id @default(autoincrement())
+  pedido        Pedido          @relation(fields: [pedidoId], references: [id])
+  pedidoId      Int             @unique
+  metodo        MetodoPagamento
+  createdAt     DateTime        @default(now())
+  transacaoId   String?         @unique
+  qrCode        String?
+  linkPagamento String?
+}
+
+enum MetodoPagamento {
+  PIX
+  CARTAO
+  BOLETO
+}
+
+enum PagamentoStatus {
+  AGUARDANDO
+  PAGO
+  FALHOU
+  EXPIRADO
 }
